@@ -1,4 +1,5 @@
 from time import time
+from utils.Constants import ROUNDING_PRECISION
 
 
 class Timer:
@@ -6,7 +7,7 @@ class Timer:
         self.start_time = None
         self.end_time = None
         self.elapsed_time = None
-        self.precision = precision
+        self.precision = ROUNDING_PRECISION
 
     def start(self):
         self.start_time = time()

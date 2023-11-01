@@ -5,6 +5,7 @@ from utils.ParentType import ParentType
 from utils.Timer import Timer
 from utils.Calc import generate_cities
 from utils.Args import Args
+from utils.Constants import ROUNDING_PRECISION
 
 
 def main():
@@ -13,6 +14,13 @@ def main():
     if args.default_tests:
         run_default_tests()
         return
+
+    if args.generate_cities and args.cities is None:
+        try:
+            args.cities = generate_cities(args.num_cities, args.map_size)
+        except Exception as e:
+            print("\033[91mERROR: Failed generating cities check \"num_cities\" and \"map_size\" args\033[0m")
+            raise e
 
     if args.gen_run:
         if args.p_type == "ALL":
@@ -107,7 +115,7 @@ def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, nu
         print('Number of elites:', gen.num_elites)
 
     print("Best path:", best_path)
-    print("Path length:", best_distance)
+    print("Path length:", round(best_distance, ROUNDING_PRECISION))
     print("Time:", str(timer.elapsed_time) + "s")
 
     graph_gen = Graph(best_path, gen.cities, title)
@@ -148,7 +156,7 @@ def start_tabu(num_iterations=None, num_neighbors=None, num_cities=None, map_siz
     print('Number of iterations:', num_iterations)
     print('Number of neighbors:', num_neighbors)
     print("Best path:", best_path)
-    print("Path length:", best_distance)
+    print("Path length:", round(best_distance, ROUNDING_PRECISION))
     print("Time:", str(timer.elapsed_time) + "s")
 
     graph_tabu = Graph(best_path, tabu.cities, "Tabu search algorithm")

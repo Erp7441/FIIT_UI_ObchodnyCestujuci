@@ -14,7 +14,7 @@ class Genetic:
             self.cities = [(random.randint(0, map_size), random.randint(0, map_size)) for _ in range(num_cities)]
         else:
             self.cities = cities
-            self.num_cities = len(cities)
+            self.num_cities = len(self.cities)
 
         self.p_type = p_type
         self.num_elites = num_elites if p_type is ParentType.ELITIST else None

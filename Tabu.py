@@ -14,7 +14,7 @@ class Tabu:
             self.cities = cities
             self.num_cities = len(cities)
 
-        self.solution = self.initialize(num_cities)
+        self.solution = self.initialize(self.num_cities)
         self.best_solution = self.solution[:]
         self.tabu_list = [self.solution[:]]  # First permutation is in tabu list
 

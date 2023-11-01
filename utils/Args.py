@@ -1,5 +1,6 @@
 import os
 import signal
+from ast import literal_eval
 from utils.ArgsParser import ArgsParser
 
 
@@ -26,7 +27,8 @@ class Args:
 
         self.parser.add_argument("--num-cities", type=int, dest="num_cities", help="Number of cities", metavar="INTEGER")
         self.parser.add_argument("--map-size", type=int, dest="map_size", help="Map size", metavar="INTEGER")
-        self.parser.add_argument("--cities", type=list, dest="cities", help="List of tuples containing coordinates", metavar="LIST OF TUPLES")
+        self.parser.add_argument("--cities", type=str, dest="cities", help="List of tuples containing coordinates", metavar="LIST OF TUPLES")
+        self.parser.add_argument("--generate-cities", action="store_true", dest="generate_cities", help="Generate same cities dataset for all algorithms")
 
         tests_group = self.parser.add_argument_group("Tests")
         tests_group.add_argument("--run-default-tests", action="store_true", dest="default_tests", help="Run default tests")
@@ -35,6 +37,9 @@ class Args:
 
         for k, v in args_dict.items():
             setattr(self, k, v)
+
+        if self.cities is not None:
+            self.cities = literal_eval(self.cities)
 
     def parse_int(self, arg, default_value):
         value = self.__convert_arg_to_int(arg)
