@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 class ArgsParser(ArgumentParser):
     def format_help(self):
         default_help = super().format_help()
-        custom_help ="""\n
+        custom_help = """\n
 Default values:
 
 - General:
@@ -61,7 +61,7 @@ main.py --tabu --num-cities 30 --map-size 300
 12. Default tests:
 main.py --run-default-tests
 
-13. Both algorithms with 40 cities, a map size of 400, For generation Both ELITIST and ROULETTE parent selections, 15 elites, 500 generations, and 50 individuals, For tabu 1000 interations, 20 neighbors:
+13. Both algorithms with 40 cities, a map size of 400, For generation Both ELITIST and ROULETTE parent selections, 15 elites, 500 generations, and 50 individuals, For tabu 1000 iterations, 20 neighbors:
 main.py --gen --parent-type ALL --num-elites 15 --num-generations 500 --num-individuals 50 --tabu --num-iterations 1000 --num-neighbors 20 --num-cities 40 --map-size 400
 """
         return default_help + custom_help

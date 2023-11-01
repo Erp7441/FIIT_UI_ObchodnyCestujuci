@@ -38,11 +38,11 @@ def run_default_tests():
     start_tabu()
 
     ####################################################
-    # Random set of cities each time (with bounderies)
+    # Random set of cities each time (with boundaries)
     ####################################################
 
     print('\n\n####################################################')
-    print("Random set of cities each time (with bounderies)")
+    print("Random set of cities each time (with boundaries)")
     print('####################################################')
     start_gen(ParentType.ROULETTE, num_generations=2000, num_individuals=100, num_cities=30)
     start_gen(ParentType.ELITIST, num_generations=2000, num_individuals=100, num_cities=30, num_elites=10)
@@ -79,7 +79,6 @@ def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, nu
         num_elites = 4
     if p_type is None or p_type not in ParentType:
         p_type = ParentType.ELITIST
-
 
     ####################################################
     # Main execution
