@@ -19,3 +19,25 @@
 # 4. Vyber rodicov
 # 5. Geneticke operatory?
 # 6. Nastavenie parametrov
+
+from Genetic import Genetic
+from Tabu import Tabu
+
+
+def main():
+
+    print("Genetic algorithm")
+    gen = Genetic()
+    best_path, best_distance = gen.start(num_generations=1000, num_individuals=50)
+    print("Best path:", best_path)
+    print("Path length:", best_distance)
+
+    print("\nTabu algorithm")
+    tabu = Tabu()
+    best_path, best_distance = tabu.start(num_iterations=1000, num_neighbors=10)
+    print("Best path:", best_path)
+    print("Path length:", best_distance)
+
+
+if __name__ == "__main__":
+    main()
