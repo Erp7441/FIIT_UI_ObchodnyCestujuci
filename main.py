@@ -40,7 +40,7 @@ def print_runs(runs: list):
     evaluate_best_runs(runs)
 
     for i, run in enumerate(runs):
-        print(str(i+1) + ':', run.get("name"))
+        print(str(i+1) + ':', "\033[93m" + run.get("name") + "\033[0m")
         print('Map size:', run.get("map_size"))
         print('Number of cities:', run.get("num_cities"))
 
