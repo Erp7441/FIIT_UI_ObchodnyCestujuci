@@ -30,7 +30,6 @@ class Tabu:
         return neighbors
 
     def start(self, num_iterations, num_neighbors):
-
         for _ in range(num_iterations):
             neighbors = Tabu.generate_neighbors(self.solution)
             neighbors.sort(key=lambda x: -calculate_fitness(x, self.cities))

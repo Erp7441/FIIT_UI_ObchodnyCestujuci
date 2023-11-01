@@ -1,7 +1,6 @@
 import random
 from utils.Calc import calculate_fitness
 
-# TODO:: stop algo after certain amount of generations
 # TODO:: add mutation probability
 # TODO:: add elitism
 
@@ -68,6 +67,10 @@ class Genetic:
                 Genetic.mutate(child1)
                 Genetic.mutate(child2)
                 children.extend([child1, child2])
+
+                # TODO:: Check if population is not equal to children if it is add a counter, once the counter
+                #  reaches a value of 5, then break
+
             population = children
 
         best_individual = max(population, key=lambda ind: calculate_fitness(ind, self.cities))

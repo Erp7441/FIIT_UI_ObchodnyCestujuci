@@ -22,22 +22,37 @@
 
 from Genetic import Genetic
 from Tabu import Tabu
+from utils.Graph import Graph
 
 
 def main():
 
+    # TODO:: Add running on a single set of cities
+    # TODO:: Add timer
+    start_gen()
+    start_tabu()
+
+
+def start_gen():
     print("Genetic algorithm")
     gen = Genetic()
     best_path, best_distance = gen.start(num_generations=1000, num_individuals=50)
     print("Best path:", best_path)
     print("Path length:", best_distance)
 
-    print("\nTabu algorithm")
+    graph_gen = Graph(best_path, "Genetic algorithm")
+    graph_gen.plot()
+
+
+def start_tabu():
+    print("\nTabu search")
     tabu = Tabu()
     best_path, best_distance = tabu.start(num_iterations=1000, num_neighbors=10)
     print("Best path:", best_path)
     print("Path length:", best_distance)
 
+    graph_tabu = Graph(best_path, "Tabu search")
+    graph_tabu.plot()
 
 if __name__ == "__main__":
     main()
