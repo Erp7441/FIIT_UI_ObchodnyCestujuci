@@ -21,4 +21,4 @@ def generate_cities(num_cities, map_size):
 
 
 def calculate_path_value(entry):
-    return entry.get("path_length") * PATH_WEIGHT + entry.get("time") * TIME_WEIGHT
+    return (entry.get("path_length") * PATH_WEIGHT) + (entry.get("time") * TIME_WEIGHT)
