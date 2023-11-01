@@ -1,4 +1,5 @@
 from math import sqrt
+from random import randint
 
 
 # Euclidean distance
@@ -12,3 +13,7 @@ def calculate_fitness(individual, cities):
     for i in range(len(individual) - 1):
         total_distance += calculate_distance(cities[individual[i]], cities[individual[i + 1]])
     return 1 / total_distance
+
+
+def generate_cities(num_cities, map_size):
+    return [(randint(0, map_size), randint(0, map_size)) for _ in range(num_cities)]

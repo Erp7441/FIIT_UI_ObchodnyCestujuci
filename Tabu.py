@@ -1,12 +1,18 @@
 import random
+
 from utils.Calc import calculate_fitness
 
 
 class Tabu:
-    def __init__(self, num_cities=20, map_size=200):
-        self.num_cities = num_cities
+    def __init__(self, num_cities=20, map_size=200, cities=None):
         self.map_size = map_size
-        self.cities = [(random.randint(0, map_size), random.randint(0, map_size)) for _ in range(num_cities)]
+
+        if cities is None:
+            self.num_cities = num_cities
+            self.cities = [(random.randint(0, map_size), random.randint(0, map_size)) for _ in range(num_cities)]
+        else:
+            self.cities = cities
+            self.num_cities = len(cities)
 
         self.solution = self.initialize(num_cities)
         self.best_solution = self.solution[:]
