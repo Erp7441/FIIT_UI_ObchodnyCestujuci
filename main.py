@@ -27,8 +27,8 @@ def main():
         if args.p_type == "ALL":
             runs.append(start_gen(ParentType.ROULETTE, args.num_generations, args.num_individuals, args.num_cities, args.map_size, args.cities, args.num_elites))
             runs.append(start_gen(ParentType.ELITIST, args.num_generations, args.num_individuals, args.num_cities, args.map_size,  args.cities, args.num_elites))
-
-        runs.append(start_gen(args.p_type, args.num_generations, args.num_individuals, args.num_cities, args.map_size, args.cities, args.num_elites))
+        else:
+            runs.append(start_gen(args.p_type, args.num_generations, args.num_individuals, args.num_cities, args.map_size, args.cities, args.num_elites))
 
     if args.tabu_run:
         runs.append(start_tabu(args.num_iterations, args.num_neighbors, args.num_cities, args.map_size, args.cities))
