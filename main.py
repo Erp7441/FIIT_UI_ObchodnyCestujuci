@@ -40,7 +40,7 @@ def start_gen():
     print("Best path:", best_path)
     print("Path length:", best_distance)
 
-    graph_gen = Graph(best_path, "Genetic algorithm")
+    graph_gen = Graph(best_path, gen.cities, "Genetic algorithm")
     graph_gen.plot()
 
 
@@ -51,7 +51,7 @@ def start_tabu():
     print("Best path:", best_path)
     print("Path length:", best_distance)
 
-    graph_tabu = Graph(best_path, "Tabu search")
+    graph_tabu = Graph(best_path, tabu.cities, "Tabu search")
     graph_tabu.plot()
 
 if __name__ == "__main__":
