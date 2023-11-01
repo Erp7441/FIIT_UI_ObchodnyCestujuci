@@ -4,10 +4,25 @@ from utils.Graph import Graph
 from utils.ParentType import ParentType
 from utils.Timer import Timer
 from utils.Calc import generate_cities
+from utils.Args import Args
 
 
 def main():
-    run_default_tests()
+    args = Args()
+
+    if args.default_tests:
+        run_default_tests()
+        return
+
+    if args.gen_run:
+        if args.p_type == "ALL":
+            start_gen(ParentType.ROULETTE, args.num_generations, args.num_individuals, args.num_cities, args.map_size, args.cities, args.num_elites)
+            start_gen(ParentType.ELITIST, args.num_generations, args.num_individuals, args.num_cities, args.map_size,  args.cities, args.num_elites)
+
+        start_gen(args.p_type, args.num_generations, args.num_individuals, args.num_cities, args.map_size, args.cities, args.num_elites)
+
+    if args.tabu_run:
+        start_tabu(args.num_iterations, args.num_neighbors, args.num_cities, args.map_size, args.cities)
 
 
 def run_default_tests():
@@ -29,9 +44,9 @@ def run_default_tests():
     print('\n\n####################################################')
     print("Random set of cities each time (with bounderies)")
     print('####################################################')
-    start_gen(ParentType.ROULETTE, num_generations=2000, num_individuals=100)
-    start_gen(ParentType.ELITIST, num_generations=2000, num_individuals=100)
-    start_tabu(num_iterations=2000, num_neighbors=20)
+    start_gen(ParentType.ROULETTE, num_generations=2000, num_individuals=100, num_cities=30)
+    start_gen(ParentType.ELITIST, num_generations=2000, num_individuals=100, num_cities=30, num_elites=10)
+    start_tabu(num_iterations=2000, num_neighbors=20, num_cities=30)
 
     ####################################################
     # Specific set of cities
@@ -48,8 +63,7 @@ def run_default_tests():
     start_tabu(map_size=map_size, cities=cities)
 
 
-def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, num_cities=None, map_size=None,
-              cities=None):
+def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, num_cities=None, map_size=None, cities=None, num_elites=None):
     ####################################################
     # Default arguments values
     ####################################################
@@ -61,6 +75,11 @@ def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, nu
         num_cities = 20
     if map_size is None:
         map_size = 200
+    if num_elites is None:
+        num_elites = 4
+    if p_type is None or p_type not in ParentType:
+        p_type = ParentType.ELITIST
+
 
     ####################################################
     # Main execution
@@ -71,9 +90,9 @@ def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, nu
     print(title)
 
     if cities:
-        gen = Genetic(p_type, map_size=map_size, cities=cities)
+        gen = Genetic(p_type, map_size=map_size, cities=cities, num_elites=num_elites)
     else:
-        gen = Genetic(p_type, num_cities=num_cities, map_size=map_size)
+        gen = Genetic(p_type, num_cities=num_cities, map_size=map_size, num_elites=num_elites)
 
     timer.start()
     best_path, best_distance = gen.start(num_generations, num_individuals)
@@ -84,6 +103,10 @@ def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, nu
     print('Number of individuals:', num_individuals)
     print('Number of generations:', num_generations)
     print('Number of same generations:', gen.num_of_same_gens)
+
+    if p_type == ParentType.ELITIST:
+        print('Number of elites:', gen.num_elites)
+
     print("Best path:", best_path)
     print("Path length:", best_distance)
     print("Time:", str(timer.elapsed_time) + "s")
@@ -92,8 +115,7 @@ def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, nu
     graph_gen.plot()
 
 
-def start_tabu(num_iterations=None, num_neighbors=None, num_cities=None, map_size=None,
-               cities=None):
+def start_tabu(num_iterations=None, num_neighbors=None, num_cities=None, map_size=None, cities=None):
 
     ####################################################
     # Default arguments values

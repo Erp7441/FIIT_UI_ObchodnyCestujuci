@@ -3,12 +3,13 @@ from numpy import array
 
 
 class Graph:
-    def __init__(self, vert_indexes, vert_coords, title,
-                 width=6, height=6,
-                 arrow_color="black", vert_color="red", font_color="white",
-                 first_arrow_color="cyan", last_arrow_color="magenta",
-                 vert_size=200, font_size=10
-                 ):
+    def __init__(
+            self, vert_indexes, vert_coords, title,
+            width=6, height=6,
+            arrow_color="black", vert_color="red", font_color="white",
+            first_arrow_color="cyan", last_arrow_color="magenta",
+            vert_size=200, font_size=10
+        ):
         self.plt = pyplot
         self.plt.rcParams['figure.figsize'] = (width, height)
         self.plt.rcParams['figure.autolayout'] = True

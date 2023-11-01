@@ -5,8 +5,7 @@ from utils.ParentType import ParentType
 
 
 class Genetic:
-    def __init__(self, p_type: ParentType, num_cities=20, map_size=200, probability=0.05, num_of_same_gens=5,
-                 cities=None, num_elites=None):
+    def __init__(self, p_type: ParentType, num_cities=20, map_size=200, probability=0.05, num_of_same_gens=5, cities=None, num_elites=None):
         self.probability = probability
         self.map_size = map_size
 
@@ -18,7 +17,7 @@ class Genetic:
             self.num_cities = len(cities)
 
         self.p_type = p_type
-        self.num_elites = num_elites
+        self.num_elites = num_elites if p_type is ParentType.ELITIST else None
         self.num_of_same_gens = num_of_same_gens
 
     @staticmethod
