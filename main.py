@@ -99,6 +99,8 @@ def evaluate_best_runs(runs: list):
 
 
 def run_default_tests():
+
+
     ####################################################
     # Random set of cities each time
     ####################################################
@@ -106,9 +108,11 @@ def run_default_tests():
     print('####################################################')
     print('Random set of cities each time')
     print('####################################################')
-    start_gen(ParentType.ROULETTE)
-    start_gen(ParentType.ELITIST)
-    start_tabu()
+    runs = []
+    runs.append(start_gen(ParentType.ROULETTE))
+    runs.append(start_gen(ParentType.ELITIST))
+    runs.append(start_tabu())
+    print_runs(runs)
 
     ####################################################
     # Random set of cities each time (with boundaries)
@@ -117,9 +121,11 @@ def run_default_tests():
     print('\n\n####################################################')
     print("Random set of cities each time (with boundaries)")
     print('####################################################')
-    start_gen(ParentType.ROULETTE, num_generations=2000, num_individuals=100, num_cities=30)
-    start_gen(ParentType.ELITIST, num_generations=2000, num_individuals=100, num_cities=30, num_elites=10)
-    start_tabu(num_iterations=2000, num_neighbors=20, num_cities=30)
+    runs = []
+    runs.append(start_gen(ParentType.ROULETTE, num_generations=2000, num_individuals=100, num_cities=30))
+    runs.append(start_gen(ParentType.ELITIST, num_generations=2000, num_individuals=100, num_cities=30, num_elites=10))
+    runs.append(start_tabu(num_iterations=2000, num_neighbors=20, num_cities=30))
+    print_runs(runs)
 
     ####################################################
     # Specific set of cities
@@ -128,12 +134,14 @@ def run_default_tests():
     print('\n\n####################################################')
     print("Specific set of cities")
     print('####################################################')
+    runs = []
     map_size = 200
     cities = generate_cities(20, map_size)
 
-    start_gen(ParentType.ROULETTE, map_size=map_size, cities=cities)
-    start_gen(ParentType.ELITIST, map_size=map_size, cities=cities)
-    start_tabu(map_size=map_size, cities=cities)
+    runs.append(start_gen(ParentType.ROULETTE, map_size=map_size, cities=cities))
+    runs.append(start_gen(ParentType.ELITIST, map_size=map_size, cities=cities))
+    runs.append(start_tabu(map_size=map_size, cities=cities))
+    print_runs(runs)
 
 
 def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, num_cities=None, map_size=None, cities=None, num_elites=None):
