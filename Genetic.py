@@ -2,11 +2,12 @@ import random
 
 from utils.Calc import calculate_fitness
 from utils.ParentType import ParentType
+from utils.Constants import PROBABILITY_OF_MUTATION
 
 
 class Genetic:
-    def __init__(self, p_type: ParentType, num_cities=20, map_size=200, probability=0.05, num_of_same_gens=5, cities=None, num_elites=None):
-        self.probability = probability
+    def __init__(self, p_type: ParentType, num_cities=20, map_size=200, probability=None, num_of_same_gens=5, cities=None, num_elites=None):
+        self.probability = PROBABILITY_OF_MUTATION if probability is None else probability
         self.map_size = map_size
 
         if cities is None:
