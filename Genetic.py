@@ -20,6 +20,7 @@ class Genetic:
         self.p_type = p_type
         self.num_elites = num_elites if p_type is ParentType.ELITIST else None
         self.num_of_same_gens = num_of_same_gens
+        self.fitness_vals = []
 
     @staticmethod
     def initialize_population(num_individuals, num_cities):
@@ -29,10 +30,14 @@ class Genetic:
         return population
 
     def select_parents(self, population, num_parents):
+        parents = []
         if self.p_type == ParentType.ROULETTE:
-            return self.roulette_select_parents(population, num_parents)
+            parents = self.roulette_select_parents(population, num_parents)
         elif self.p_type == ParentType.ELITIST:
-            return self.elitist_select_parents(population, num_parents)
+            parents = self.elitist_select_parents(population, num_parents)
+
+        self.fitness_vals.append(calculate_fitness(parents[0], self.cities))
+        return parents
 
     def elitist_select_parents(self, population, num_parents):
         if len(population) < num_parents:

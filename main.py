@@ -12,6 +12,13 @@ def main():
     args = Args()
     runs = []
 
+    for i in range(30):
+        start_runs(args, runs)
+
+    print_runs(runs)
+
+
+def start_runs(args, runs):
     if args.default_tests:
         run_default_tests()
         return
@@ -33,41 +40,86 @@ def main():
     if args.tabu_run:
         runs.append(start_tabu(args.num_iterations, args.num_neighbors, args.num_cities, args.map_size, args.cities))
 
-    print_runs(runs)
-
-
 def print_runs(runs: list):
     evaluate_best_runs(runs)
 
+    # for i, run in enumerate(runs):
+    #     print(str(i+1) + ':', "\033[93m" + run.get("name") + "\033[0m")
+    #     print('Map size:', run.get("map_size"))
+    #     print('Number of cities:', run.get("num_cities"))
+    #
+    #     # Specific to genetic algorithm
+    #     if run.get("num_individuals") is not None:
+    #         print('Number of individuals:', run.get("num_individuals"))
+    #     if run.get("num_generations") is not None:
+    #         print('Number of generations:', run.get("num_generations"))
+    #     if run.get("num_of_same_gens") is not None:
+    #         print('Number of same generations:', run.get("num_of_same_gens"))
+    #
+    #     # Specific to genetic algorithm elite parents selection
+    #     if run.get("num_elites") is not None:
+    #         print('Number of elites:', run.get("num_elites"))
+    #
+    #     # Specific to tabu algorithm
+    #     if run.get("num_iterations") is not None:
+    #         print('Number of iterations:', run.get("num_iterations"))
+    #     if run.get("num_neighbors") is not None:
+    #         print('Number of neighbors:', run.get("num_neighbors"))
+    #
+    #     print('Best path:', run.get("best_path"))
+    #     print('Path length:', run.get("path_length"))
+    #     print('Time:', run.get("time").replace('\033[0m', 's\033[0m'))
+    #     print('\n', end='')
+    #
+    #     run.get('graph').plot()
+
+    print("Genetic algorithm Fitness  (ROULETTE):")
     for i, run in enumerate(runs):
-        print(str(i+1) + ':', "\033[93m" + run.get("name") + "\033[0m")
-        print('Map size:', run.get("map_size"))
-        print('Number of cities:', run.get("num_cities"))
+        if run.get("name") == "Genetic algorithm (ROULETTE)":
+            print("ROULETTE RUN")
+            for i, gen in enumerate(run.get("fitness")):
+                print(gen)
+            print("END OF ROULETTE RUN")
 
-        # Specific to genetic algorithm
-        if run.get("num_individuals") is not None:
-            print('Number of individuals:', run.get("num_individuals"))
-        if run.get("num_generations") is not None:
-            print('Number of generations:', run.get("num_generations"))
-        if run.get("num_of_same_gens") is not None:
-            print('Number of same generations:', run.get("num_of_same_gens"))
+    print("Genetic algorithm Fitness (ELITIST):")
+    for i, run in enumerate(runs):
+        if run.get("name") == "Genetic algorithm (ELITIST)":
+            print("ELITE RUN")
+            for i, gen in enumerate(run.get("fitness")):
+                print(gen)
+            print("END OF ELITE RUN")
 
-        # Specific to genetic algorithm elite parents selection
-        if run.get("num_elites") is not None:
-            print('Number of elites:', run.get("num_elites"))
+    print("Genetic algorithm (ROULETTE) Time:")
+    for run in runs:
+        if run.get("name") == "Genetic algorithm (ROULETTE)":
+            print(run.get("time"))
 
-        # Specific to tabu algorithm
-        if run.get("num_iterations") is not None:
-            print('Number of iterations:', run.get("num_iterations"))
-        if run.get("num_neighbors") is not None:
-            print('Number of neighbors:', run.get("num_neighbors"))
+    print("Genetic algorithm (ELITIST) Time:")
+    for run in runs:
+        if run.get("name") == "Genetic algorithm (ELITIST)":
+            print(run.get("time"))
 
-        print('Best path:', run.get("best_path"))
-        print('Path length:', run.get("path_length"))
-        print('Time:', run.get("time").replace('\033[0m', 's\033[0m'))
-        print('\n', end='')
+    print('Tabu search algorithm Time:')
+    for run in runs:
+        if run.get("name") == "Tabu search algorithm":
+            print(run.get("time"))
 
-        run.get('graph').plot()
+
+    print("Genetic algorithm (ROULETTE) Path length:")
+    for run in runs:
+        if run.get("name") == "Genetic algorithm (ROULETTE)":
+            print(run.get("path_length"))
+
+    print("Genetic algorithm (ELITIST) Path length:")
+    for run in runs:
+        if run.get("name") == "Genetic algorithm (ELITIST)":
+            print(run.get("path_length"))
+
+    print('Tabu search algorithm Path length:')
+    for run in runs:
+        if run.get("name") == "Tabu search algorithm":
+            print(run.get("path_length"))
+
 
 
 def evaluate_best_runs(runs: list):
@@ -187,7 +239,8 @@ def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, nu
         "best_path": best_path,
         "path_length": round(best_distance, ROUNDING_PRECISION),
         "time": timer.elapsed_time,
-        "graph": Graph(best_path, gen.cities, title)
+        "graph": Graph(best_path, gen.cities, title),
+        "fitness": gen.fitness_vals
     }
 
     if p_type == ParentType.ELITIST:
