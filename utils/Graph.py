@@ -3,7 +3,6 @@ from numpy import array
 
 from utils.Constants import GRAPH_WIDTH, GRAPH_HEIGHT
 
-# TODO:: Fix title bug with multiple graphs
 
 class Graph:
     def __init__(
@@ -12,14 +11,18 @@ class Graph:
             arrow_color="black", vert_color="red", font_color="white",
             first_arrow_color="cyan", last_arrow_color="magenta",
             vert_size=200, font_size=10
-        ):
+    ):
+        self.width = width
+        self.height = height
+        self.title = title
 
         self.plt = pyplot
         self.plt.rcParams['figure.figsize'] = (width, height)
         self.plt.rcParams['figure.autolayout'] = True
         self.plt.grid = True
-        self.plt.xlabel('X')
-        self.plt.ylabel('Y')
+
+        self.ax = None
+        self.fig = None
 
         self.vert_indexes = array(vert_indexes)
         self.vert_coords = array(vert_coords)
@@ -33,11 +36,17 @@ class Graph:
         self.font_color = font_color
         self.font_size = font_size
 
-        self.plt.title(title)
-
         self.background_color = "white"
 
     def plot(self):
+        # Create a new figure and axis each time plot is called
+        self.fig, self.ax = self.plt.subplots(figsize=(self.width, self.height))
+
+        # Labels
+        self.ax.set_xlabel('X')
+        self.ax.set_ylabel('Y')
+        self.ax.set_title(self.title)
+
         x = [self.vert_coords[i][0] for i in self.vert_indexes]
         y = [self.vert_coords[i][1] for i in self.vert_indexes]
 
@@ -53,7 +62,7 @@ class Graph:
         # Plotting arrows
         self._plot_arrows_(x, y, dx, dy)
 
-        self.plt.scatter(
+        self.ax.scatter(
             x,  # X-coordinate of points
             y,  # Y-coordinate of points
             color=self.vert_color,
@@ -76,14 +85,14 @@ class Graph:
                 ec="none"  # Edges are not drawn
             )
 
-            self.plt.annotate(self.vert_indexes[i], (x[i], y[i]), fontsize=self.font_size, ha='center', va='center',
-                              color=self.font_color)
+            self.ax.annotate(self.vert_indexes[i], (x[i], y[i]), fontsize=self.font_size, ha='center', va='center',
+                             color=self.font_color)
 
         self.plt.show()
 
     def _plot_arrows_(self, x, y, dx, dy):
         # First arrow
-        self.plt.quiver(
+        self.ax.quiver(
             x[0], y[0],
             dx[0], dy[0],
             color=self.first_arrow_color,
@@ -93,7 +102,7 @@ class Graph:
         )
 
         # All the other arrows except last one
-        self.plt.quiver(
+        self.ax.quiver(
             x[1:-1], y[1:-1],
             dx[1:-1], dy[1:-1],
             color=self.arrow_color,
@@ -103,7 +112,7 @@ class Graph:
         )
 
         # Last arrow
-        self.plt.quiver(
+        self.ax.quiver(
             x[-1], y[-1],
             dx[-1], dy[-1],
             color=self.last_arrow_color,
@@ -114,4 +123,4 @@ class Graph:
 
     def _annotate_with_space_(self, text, xy, fontsize, ha, va, color, pad, fc, ec):
         bbox_props = dict(boxstyle="round, pad=" + str(pad), fc=fc, ec=ec)
-        self.plt.text(xy[0], xy[1], text, fontsize=fontsize, ha=ha, va=va, color=color, bbox=bbox_props, zorder=10)
+        self.ax.text(xy[0], xy[1], text, fontsize=fontsize, ha=ha, va=va, color=color, bbox=bbox_props, zorder=10)
