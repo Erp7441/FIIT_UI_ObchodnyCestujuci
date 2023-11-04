@@ -1,6 +1,6 @@
 import random
 
-from utils.Calc import calculate_fitness
+from utils.Calc import calculate_fitness, generate_cities
 from utils.ParentType import ParentType
 from utils.Constants import PROBABILITY_OF_MUTATION
 
@@ -12,7 +12,7 @@ class Genetic:
 
         if cities is None:
             self.num_cities = num_cities
-            self.cities = [(random.randint(0, map_size), random.randint(0, map_size)) for _ in range(num_cities)]
+            self.cities = generate_cities(num_cities, map_size)
         else:
             self.cities = cities
             self.num_cities = len(self.cities)
@@ -76,14 +76,22 @@ class Genetic:
     # Two-point crossover
     @staticmethod
     def crossover(parent1, parent2):
+        # Selecting random part of genome
         start, end = sorted(random.sample(range(len(parent1)), 2))
         child = [-1] * len(parent1)
+
+        # Copying first part of parent1 to child
         for i in range(start, end + 1):
             child[i] = parent1[i]
+
+        # Copying second part of parent2 to child
         remaining = [item for item in parent2 if item not in child]
+
+        # Copying remaining part of parent2 to child
         for i in range(len(parent1)):
             if child[i] == -1:
                 child[i] = remaining.pop(0)
+
         return child
 
     # Mutation by swapping two places in solution
@@ -91,34 +99,40 @@ class Genetic:
         if random.random() > self.probability:
             return
 
+        # Swapping two places
         index1, index2 = random.sample(range(len(individual)), 2)
         individual[index1], individual[index2] = individual[index2], individual[index1]
 
     def start(self, num_generations, num_individuals):
+        # Initializing population
         population = Genetic.initialize_population(num_individuals, len(self.cities))
         no_evolve_counter = 0
 
         for _ in range(num_generations):
+            # Checking if population is evolving
             if no_evolve_counter == self.num_of_same_gens:
                 break
 
+            # Selecting the best parents of population
             parents = self.select_parents(population, num_individuals)
             children = []
 
             for i in range(0, len(parents), 2):
-                parent1 = parents[i]
-                parent2 = parents[i + 1]
-                child1 = Genetic.crossover(parent1, parent2)
-                child2 = Genetic.crossover(parent2, parent1)
+                # Crossover of parents and mutation of children
+                child1 = Genetic.crossover(parents[i], parents[i + 1])
+                child2 = Genetic.crossover(parents[i + 1], parents[i])
                 self.mutate(child1)
                 self.mutate(child2)
+
                 children.extend([child1, child2])
 
+                # If population is not evolving, increment counter
                 if population == children:
                     no_evolve_counter += 1
 
             population = children
 
+        # Returning best individual and best fitness
         best_individual = max(population, key=lambda ind: calculate_fitness(ind, self.cities))
         best_distance = 1 / calculate_fitness(best_individual, self.cities)
 

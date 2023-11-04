@@ -2,5 +2,9 @@ ROUNDING_PRECISION = 3
 
 PROBABILITY_OF_MUTATION = 0.05
 
+GRAPH_WIDTH = 7
+GRAPH_HEIGHT = 7
+
+# Algorithm run evaluation weights for colorful output
 PATH_WEIGHT = 0.001
 TIME_WEIGHT = 1

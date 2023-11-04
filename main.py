@@ -70,6 +70,7 @@ def print_runs(runs: list):
         run.get('graph').plot()
 
 
+# Add ANSI colors to output for better readability
 def evaluate_best_runs(runs: list):
     best_path_length_index = None
     best_time_index = None
@@ -145,6 +146,7 @@ def run_default_tests():
 
 
 def start_gen(p_type: ParentType, num_generations=None, num_individuals=None, num_cities=None, map_size=None, cities=None, num_elites=None):
+
     ####################################################
     # Default arguments values
     ####################################################

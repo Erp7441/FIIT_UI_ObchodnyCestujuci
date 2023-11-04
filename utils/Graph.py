@@ -1,15 +1,19 @@
 from matplotlib import pyplot
 from numpy import array
 
+from utils.Constants import GRAPH_WIDTH, GRAPH_HEIGHT
+
+# TODO:: Fix title bug with multiple graphs
 
 class Graph:
     def __init__(
             self, vert_indexes, vert_coords, title,
-            width=6, height=6,
+            width=GRAPH_WIDTH, height=GRAPH_HEIGHT,
             arrow_color="black", vert_color="red", font_color="white",
             first_arrow_color="cyan", last_arrow_color="magenta",
             vert_size=200, font_size=10
         ):
+
         self.plt = pyplot
         self.plt.rcParams['figure.figsize'] = (width, height)
         self.plt.rcParams['figure.autolayout'] = True
